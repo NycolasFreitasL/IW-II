@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Quiz de 10 Perguntas</h1>
+    <div class="timer" id="timer">Tempo: 0s</div>
+
+    <form id="quizForm">
+        <!-- Perguntas serão injetadas aqui via JS -->
+    </form>
+
+    <button onclick="finalizarQuiz()">Finalizar</button>
+
+    <div class="result" id="resultado"></div>
+
+    <script>
+        const perguntas = [
+            { pergunta: "Qual é o menor país do mundo?", opcoes: ["Mônaco", "Malta", "Vaticano", "San Marino", "Liechtenstein"], correta: 2 },
+            { pergunta: "Em que ano o homem pisou na Lua?", opcoes: ["1965", "1969", "1971", "1959", "1973"], correta: 1 },
+            { pergunta: "Quem pintou a Mona Lisa?", opcoes: ["Michelangelo", "Leonardo da Vinci", "Picasso", "Van Gogh", "Rafael"], correta: 1 },
+            { pergunta: "Qual é a fórmula da velocidade média?", opcoes: ["v = m/a", "v = d/t", "v = t/d", "v = a*t", "v = p/t"], correta: 1 },
+            { pergunta: "Qual é o animal símbolo da Austrália?", opcoes: ["Canguru", "Coala", "Diabo-da-Tasmânia", "Emu", "Dingo"], correta: 0 },
+            { pergunta: "Quantos continentes existem?", opcoes: ["5", "6", "7", "8", "4"], correta: 2 },
+            { pergunta: "Qual é o maior oceano do mundo?", opcoes: ["Atlântico", "Índico", "Ártico", "Antártico", "Pacífico"], correta: 4 },
+            { pergunta: "Quem escreveu 'A Odisséia'?", opcoes: ["Virgílio", "Homero", "Sófocles", "Platão", "Aristóteles"], correta: 1 },
+            { pergunta: "Qual é o número atômico do Oxigênio?", opcoes: ["6", "8", "16", "10", "12"], correta: 1 },
+            { pergunta: "Qual é a capital do Canadá?", opcoes: ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary"], correta: 3 },
+        ];
+
+        const form = document.getElementById("quizForm");
+        const resultado = document.getElementById("resultado");
+        let tempo = 0;
+        let intervalo;
+
+        function iniciarQuiz() {
+            perguntas.forEach((q, index) => {
+                const div = document.createElement("div");
+                div.classList.add("question");
+                div.innerHTML = `<p><strong>${index + 1}. ${q.pergunta}</strong></p>` +
+                    q.opcoes.map((opcao, i) =>
+                        `<label><input type="radio" name="q${index}" value="${i}"> ${opcao}</label>`
+                    ).join("");
+                form.appendChild(div);
+            });
+
+            intervalo = setInterval(() => {
+                tempo++;
+                document.getElementById("timer").innerText = `Tempo: ${tempo}s`;
+            }, 1000);
+        }
+
+        function finalizarQuiz() {
+            // Verifica se todas as perguntas foram respondidas
+            for (let i = 0; i < perguntas.length; i++) {
+                const selecionado = form.querySelector(`input[name="q${i}"]:checked`);
+                if (!selecionado) {
+                    alert(`Por favor, responda a pergunta ${i + 1} antes de finalizar.`);
+                    return;
+                }
+            }
+
+            clearInterval(intervalo);
+            let corretas = 0;
+            let erradas = 0;
+
+            perguntas.forEach((q, index) => {
+                const opcoes = form.querySelectorAll(`input[name="q${index}"]`);
+                const selecionado = form.querySelector(`input[name="q${index}"]:checked`);
+
+                opcoes.forEach((op, i) => {
+                    const label = op.parentElement;
+                    label.innerHTML = label.innerHTML.replace(/✅|❌/g, '');
+
+                    if (i == q.correta) {
+                        label.innerHTML += ' <span class="correct"></span>';
+                    } else if (op.checked && i !== q.correta) {
+                        label.innerHTML += ' <span class="incorrect">❌</span>';
+                    }
+                });
+
+                if (selecionado) {
+                    if (parseInt(selecionado.value) === q.correta) {
+                        corretas++;
+                    } else {
+                        erradas++;
+                    }
+                }
+            });
+
+            resultado.innerText = `Você acertou ${corretas} e errou ${erradas} perguntas. Tempo total: ${tempo}s.`;
+        }
+
+        window.onload = iniciarQuiz;
+    </script>
+</body>
+</html>

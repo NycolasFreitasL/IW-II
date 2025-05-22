@@ -1,0 +1,129 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #e3f2fd, #fce4ec);
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #3f51b5;
+    font-size: 2.5rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-left: 4px solid #3f51b5;
+    background: #f5f5f5;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.question:hover {
+    background: #e3f2fd;
+}
+
+.question p {
+    margin: 0 0 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+label:hover {
+    background-color: #e8eaf6;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+.timer {
+    font-size: 1.2rem;
+    text-align: center;
+    background: #3f51b5;
+    color: white;
+    padding: 10px;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 20px;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 12px 25px;
+    font-size: 1rem;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #303f9f;
+    transform: scale(1.05);
+}
+
+.result {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border: 2px solid #4caf50;
+    color: #2e7d32;
+    border-radius: 8px;
+}
+
+/* Ícones de feedback */
+label:has(input:checked) {
+    font-weight: bold;
+}
+
+.correct::after {
+    content: " ✅";
+    color: green;
+}
+
+.wrong::after {
+    content: " ❌";
+    color: red;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .question p {
+        font-size: 1rem;
+    }
+}
